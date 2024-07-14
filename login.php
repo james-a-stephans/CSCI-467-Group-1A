@@ -10,6 +10,7 @@
     //If the user is already logged in, log them out.
     if(isset($_SESSION['username'])) {
         unset($_SESSION['username']);
+        unset($_SESSION['adminLogin']);
         //TODO(possible): unset other relevant session variables.
         resetUserPage();
     }
@@ -22,6 +23,10 @@
     //If the user has not attempted to log in, or tried and failed, display the log in box.
     if(!$successfulLogin) {
         showLoginBox();
+
+        if(isset($_POST["loginAttempt"])) {
+            echo "\n<p class=\"login-error\">\nInvalid username or password.\n</p>\n";
+        }
     }
 
     //If the user successfully logged in, move them to their prior page or the home page, as appropriate.
