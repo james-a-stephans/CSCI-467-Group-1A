@@ -8,6 +8,8 @@
     $_SESSION['ReturnPage'] = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'] .
     '?' . $_SERVER['QUERY_STRING'];
 
+    denyAccess();
+
     //Close the body and html tags after running the relevant functions.
     echo '
     </body>
