@@ -7,10 +7,6 @@
                 Minimum Weight:\
             </label>\
             <input type=\"text\" id=\"weight-min\" name=\"weight-min\" />\
-            <label for=\"weight-max\" class=\"weight-elt\">\
-                Maximum Weight:\
-            </label>\
-            <input type=\"text\" id=\"weight-max\" name=\"weight-max\" />\
             <label for=\"price\" class=\"weight-elt\">\
                 Price:\
             </label>\

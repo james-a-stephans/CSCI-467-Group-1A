@@ -13,6 +13,10 @@ h1 {
     color: white;
 }
 
+h3 {
+    text-align: center;
+}
+
 .header-links {
     text-decoration: none;
     background-color: slategray;
@@ -72,4 +76,56 @@ h1 {
 
 .weight-elt {
     display: block;
+}
+
+.part-info {
+    margin: auto;
+    width: 95%;
+    color: white;
+    text-align: center;
+}
+
+.part {
+    border-style: double;
+    border-width: 5px;
+    border-color: steelblue;
+    color: white;
+    text-align: center;
+}
+
+.cart {
+    margin: auto;
+    width: 95%;
+    color: white;
+}
+
+.cart-part {
+    border-style: double;
+    border-width: 5px;
+    border-color: steelblue;
+    color: white;
+}
+
+.product-info {
+    text-align: left;
+    white-space: pre;
+}
+
+.order-box {
+    white-space: pre;
+}
+
+.cart-box {
+    color: white;
+    margin: auto;
+    width: 50%;
+    border-style: solid;
+    border-width: 10px;
+    border-color: steelblue;
+    white-space: pre;
+    text-align: left;
+}
+
+.order-footer {
+    text-align: center;
 }
