@@ -1,0 +1,12 @@
+CREATE DATABASE CSCI467GROUP1A;
+
+CREATE TABLE Login(
+    username VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(50) NOT NULL,
+    role VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE WeightBrackets(
+    weight INT PRIMARY KEY,
+    price DOUBLE NOT NULL
+);
