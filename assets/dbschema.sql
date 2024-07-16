@@ -7,6 +7,6 @@ CREATE TABLE Login(
 );
 
 CREATE TABLE WeightBrackets(
-    weight INT PRIMARY KEY,
-    price DOUBLE NOT NULL
+    weight FLOAT(4,2) PRIMARY KEY,
+    price FLOAT(8,2) NOT NULL
 );
