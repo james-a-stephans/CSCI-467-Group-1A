@@ -15,17 +15,17 @@ CREATE TABLE products(
 );
 
 CREATE TABLE customer(
-    customerid INT PRIMARY KEY,
+    email VARCHAR(50) PRIMARY KEY,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
-    address VARCHAR(250) NOT NULL,
-    email VARCHAR(50) NOT NULL
+    address VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE orders(
-    customerid INT NOT NULL,
+    email VARCHAR(50) NOT NULL,
     partnumber INT NOT NULL,
-    orderdate DATE NOT NULL,
-    PRIMARY KEY(customerid, partnumber, orderdate)
+    quantity INT NOT NULL,
+    orderno INT NOT NULL,
+    PRIMARY KEY(email, partnumber, orderno)
 );
 
