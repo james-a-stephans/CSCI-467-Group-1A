@@ -1,6 +1,3 @@
-CREATE DATABASE CSCI467GROUP1A;
-USE CSCI467GROUP1A;
-
 CREATE TABLE login(
     username VARCHAR(50) PRIMARY KEY,
     password VARCHAR(50) NOT NULL,
@@ -26,9 +23,9 @@ CREATE TABLE customer(
 );
 
 CREATE TABLE orders(
-    customerid INT,
-    partnumber INT,
-    orderdate DATE,
+    customerid INT NOT NULL,
+    partnumber INT NOT NULL,
+    orderdate DATE NOT NULL,
     PRIMARY KEY(customerid, partnumber, orderdate)
 );
 
