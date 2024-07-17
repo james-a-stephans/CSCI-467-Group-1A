@@ -43,6 +43,8 @@
                 }
 
                 echo '<a href="./index.php" title="Home Page" class="header-links">&#x1F3E0;</a>' . "\n";
+                echo '<a href="./parts.php" title="Products" class="header-links">&#x1FA9B;</a>' . "\n";
+                echo '<a href="./checkout.php" title="View Cart" class="header-links">&#x1F6D2;</a>' . "\n";
 
                 if(!isset($_SESSION['username'])) {
                     echo '<a href="./login.php" title="Login" class="header-links">&#x1F511;</a>';
