@@ -1,14 +1,4 @@
 <?php
-
-    try {// if something goes wrong, an exception is thrown
-        $dsn = "mysql:host=blitz;dbname=csci467";
-        $pdo = new PDO($dsn, 'student', 'student');
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-    }
-    catch(PDOexception $e)  { // handle that exception
-        $pdo = false;
-    }
-
     //Initialize the webpage with the appropriate statements to print the header and import relevant functions.
     session_start();
     require './src/functions.php';

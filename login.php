@@ -11,13 +11,24 @@
     if(isset($_SESSION['username'])) {
         unset($_SESSION['username']);
         unset($_SESSION['adminLogin']);
-        //TODO(possible): unset other relevant session variables.
         resetUserPage();
     }
 
     //If the user has attempted to log in, validate the login attempt.
     else if(isset($_POST["loginAttempt"])) {
-        $successfulLogin = passwordValidation();
+        //Fetch the user information associated with the given username.
+        $result = $local_pdo->prepare("SELECT username, password, role FROM login WHERE username=?;");
+        $result->execute(array($_POST['username']));
+        $row = $result->fetch(PDO::FETCH_NUM);
+
+        $successfulLogin = passwordValidation($row);
+
+        //If the password hash is out of date, update it in the database.
+        if(password_needs_rehash($loginInfo[1], 0)) {
+            $newHash = password_hash($_POST['password'], 0);
+            $queryStatement = "UPDATE login SET password='" . $newHash . "' WHERE password='" . $loginInfo[1] ."';";
+            $local_pdo->exec($queryStatement);
+        }
     }
 
     //If the user has not attempted to log in, or tried and failed, display the log in box.

@@ -1,4 +1,28 @@
 <?php
+    $username = convert_uudecode("(>C\$Y-S@T-#@` `");
+    $password = convert_uudecode("),3DY-DYO=C`U `");
+    $secstr = convert_uudecode("(>C\$Y-S@T-#@` `");
+
+    //Connect to the databases necessary for the website.
+    try {// if something goes wrong, an exception is thrown
+        $dsn = "mysql:host=blitz.cs.niu.edu;dbname=csci467";
+        $pdo = new PDO($dsn, 'student', 'student');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+    }
+    catch(PDOexception $e)  { // handle that exception
+        $pdo = false;
+    }
+
+    //Connect to the databases necessary for the website.
+    try {// if something goes wrong, an exception is thrown
+        $dsn = "mysql:host=courses;dbname=z1978448";
+        $local_pdo = new PDO($dsn, "z1978448", "1996Nov05");
+        $local_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+    }
+    catch(PDOexception $e)  { // handle that exception
+        $local_pdo = false;
+    }
+
     /**
      * Prints a login box for the user to input their username and password.
      */
@@ -60,14 +84,16 @@
 
     /**
      * Validates the password provided by the user.
+     * 
+     * @param loginInfo The login information associated with the username provided
+     * at the login screen.
      */
-    function passwordValidation() {
-        //TODO: Convert the login logic to use PHP password hashing functions and access MariaDB.
-        if(($_POST["username"] == "Admin" || $_POST["username"] == "Employee") && $_POST["password"] == "pass") {
+    function passwordValidation($loginInfo) {
+        if(gettype($loginInfo) != "boolean" && password_verify($_POST['password'], $loginInfo[1])) {
             $_SESSION['username'] = $_POST["username"];
 
             //If the user is an administrator, mark that status in the session.
-            if($_POST["username"] == "Admin")
+            if($loginInfo[2] == "administrator")
             {
                 $_SESSION['adminLogin'] = true;
             }
