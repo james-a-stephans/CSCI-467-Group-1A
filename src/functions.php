@@ -66,7 +66,9 @@
                     echo '<a href="./weight.php" title="Set Weight Price Brackets" class="header-links">&#x1F4E6;</a>' . "\n";
                     echo '<a href="./vieworder.php" title="View Orders" class="header-links">&#128269;</a>' . "\n";
                 }
-
+                if(isset($_SESSION['username']) && !isset($_SESSION['adminLogin'])) {
+                    echo '<a href="./process.php" title="Process Delivery" class="header-links">&#x1F69A;</a>' . "\n";
+                }
                 echo '<a href="./index.php" title="Home Page" class="header-links">&#x1F3E0;</a>' . "\n";
                 echo '<a href="./parts.php" title="Products" class="header-links">&#x1FA9B;</a>' . "\n";
                 echo '<a href="./checkout.php" title="View Cart" class="header-links">&#x1F6D2;</a>' . "\n";
