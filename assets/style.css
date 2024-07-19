@@ -78,6 +78,25 @@ h3 {
     display: block;
 }
 
+.all-orders {
+    margin: auto;
+    width: 95%;
+    border-style: none;
+    text-align: center;
+}
+
+.orderhead {
+    border-style: inset;
+    border-width: 5px;
+    border-color: steelblue;
+    text-align: center;
+}
+
+.order {
+    border-style: none solid solid solid;
+    border-color: white;
+}
+
 .part-info {
     margin: auto;
     width: 95%;

@@ -64,6 +64,7 @@
             <h2 class="header-band">';
                 if(isset($_SESSION['adminLogin'])) {
                     echo '<a href="./weight.php" title="Set Weight Price Brackets" class="header-links">&#x1F4E6;</a>' . "\n";
+                    echo '<a href="./vieworder.php" title="View Orders" class="header-links">&#128269;</a>' . "\n";
                 }
 
                 echo '<a href="./index.php" title="Home Page" class="header-links">&#x1F3E0;</a>' . "\n";
@@ -129,8 +130,47 @@
             unset($_SESSION['accessDenied']);
         }
     }
-
     /**
+     * Display the orders table for the administrator to view.
+     */
+    function showOrderTable($orders, $pdo) {
+        if(count($orders) == 0){
+            echo '<p> No orders found. </p>';
+        }
+        else{
+            echo '<p><table class="all-orders">
+                <tr>
+                    <th class="orderhead">Order Number</th>
+                    <th class="orderhead">Customer Email</th>
+                    <th class="orderhead">Part Number</th>
+                    <th class="orderhead">Description</th>
+                    <th class="orderhead">Price</th>
+                    <th class="orderhead">Quantity</th>
+                    <th class="orderhead">Total Price</th>
+                </tr>';
+            foreach($orders as $order){
+                //Get the part information for the order.
+                $partnumber = $order['partnumber'];
+                $stmt = $pdo->prepare("SELECT description, price FROM parts WHERE number = :partnumber");
+                $stmt->execute(['partnumber' => $partnumber]);
+                $part = $stmt->fetch();
+                $description = $part['description'];
+                $price = $part['price'];
+                $totalprice = $price * $order['quantity'];
+                echo '<tr>
+                    <td class ="order">' . $order['orderno'] . '</td>
+                    <td class ="order">' . $order['email'] . '</td>
+                    <td class ="order">' . $order['partnumber'] . '</td>
+                    <td class ="order">' . $description . '</td>
+                    <td class ="order">'.'$'. $price . '</td>
+                    <td class ="order">' . $order['quantity'] . '</td>
+                    <td class ="order">'.'$'. $totalprice . '</td>
+                </tr>';
+            }
+            echo '</table></p>';
+        }
+      
+    /** 
      * Display an error message if something goes wrong while placing an order.
      */
     function transactionFailure() {
