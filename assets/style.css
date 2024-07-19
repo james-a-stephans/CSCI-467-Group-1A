@@ -145,6 +145,21 @@ h3 {
     text-align: left;
 }
 
+.pay-box {
+    color: white;
+    margin: auto;
+    width: 50%;
+    border-style: solid;
+    border-width: 10px;
+    border-color: steelblue;
+    white-space: pre;
+    text-align: left;
+}
+
+.pay-form {
+    display: inline-block;
+}
+
 .order-footer {
     text-align: center;
 }
@@ -153,4 +168,5 @@ h3 {
     text-align: center;
     font-size: xx-large;
     color: white;
+    white-space: pre;
 }

@@ -55,12 +55,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Parts</title>
+        <title>DuCSS Parts Store</title>
         <link rel="stylesheet" href="./assets/style.css" />
     </head>
     <body>
         <header>
-            <h1>Parts Store</h1>
+            <h1>DuCSS Parts Store</h1>
             <h2 class="header-band">';
                 if(isset($_SESSION['adminLogin'])) {
                     echo '<a href="./weight.php" title="Set Weight Price Brackets" class="header-links">&#x1F4E6;</a>' . "\n";
@@ -130,7 +130,6 @@
             unset($_SESSION['accessDenied']);
         }
     }
-
     /**
      * Display the orders table for the administrator to view.
      */
@@ -170,5 +169,12 @@
             }
             echo '</table></p>';
         }
+      
+    /** 
+     * Display an error message if something goes wrong while placing an order.
+     */
+    function transactionFailure() {
+        echo '<p class="error-message">Something has gone wrong on our end.
+        We apologize for any inconvenience.</p>';
     }
 ?>

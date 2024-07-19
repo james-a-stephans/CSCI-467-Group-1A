@@ -17,13 +17,21 @@
             echo "\n<tr class=\"part\">";
         }
 
-        //TODO: Fetch the quantity on-hand for the current product; set maximum quantity for add to cart.
+        //Find the quantity remaining of an item, as well as the quantity that a customer can add to their current cart.
+        $productQuantity = $local_pdo->query("SELECT quantity FROM `products` WHERE partnumber='" . $row[0] . "';");
+        $qty = $productQuantity->fetch(PDO::FETCH_NUM)[0];
+        $maxQty = $qty - $_SESSION['cart'][$row[0]];
 
-        //Print the data for the current database record."
+        //Format the price and weight to display in their correct formats.
+        $itemPrice = number_format($row[2], 2);
+        $itemWeight = number_format($row[3], 2);
+
+        //Print the data for the current database record.
         echo "\n<td class=\"part\"><img class=\"product-pic\" src=\"" . $row[4] . "\" /><div class=\"product-info\">Product: "
-        . ucfirst($row[1]) ."\nPrice: $" . $row[2] . "\nWeight: " . $row[3] . " lbs.\nQuantity in store: " . "</div>"
-        . '<form method="POST" action="./parts.php"><input type="hidden" name="partNum" value="' . $row[0] . '"/>'
-        . '<input type="number" id="qtyOrdered" name="qtyOrdered" value="1" min="1" /><input type="submit" value="Add to Cart" name="itemAdd" />'
+        . ucfirst($row[1]) ."\nPrice: $" . $itemPrice . "\nWeight: " . $itemWeight . " lbs.\nQuantity in store: ". $qty
+        . "</div>" . '<form method="POST" action="./parts.php"><input type="hidden" name="partNum" value="' . $row[0] . '"/>'
+        . '<input type="number" id="qtyOrdered" name="qtyOrdered" value="0" min="0" max="' . $maxQty
+        . '"/><input type="submit" value="Add to Cart" name="itemAdd" />'
         . "</form></td>";
 
         $colNum++;
@@ -42,7 +50,7 @@
     //If the user added something to their cart, update the session variable appropriately.
     if(isset($_POST['itemAdd']))
     {
-        $_SESSION['cart'][$_POST['partNum']] = $_POST['qtyOrdered'];
+        $_SESSION['cart'][$_POST['partNum']] += $_POST['qtyOrdered'];
     }
 
     //Close the body and html tags after running the relevant functions.
