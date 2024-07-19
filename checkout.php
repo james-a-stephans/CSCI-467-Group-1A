@@ -151,6 +151,10 @@
             $currentOrder = 1;
         }
 
+        else {
+            $currentOrder++;
+        }
+
         //Begin a transaction with the local database.
         $begin = $local_pdo->beginTransaction();
         $transaction = $begin;

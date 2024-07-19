@@ -130,6 +130,7 @@
             unset($_SESSION['accessDenied']);
         }
     }
+    
     /**
      * Display the orders table for the administrator to view.
      */
@@ -169,6 +170,7 @@
             }
             echo '</table></p>';
         }
+    }
       
     /** 
      * Display an error message if something goes wrong while placing an order.
