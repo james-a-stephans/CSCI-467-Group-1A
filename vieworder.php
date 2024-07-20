@@ -44,11 +44,16 @@
                 echo '<p> Search Results </p>';
                 $searchtype = $_POST['searchtype'];
                 $search = $_POST['search'];
-                $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search');
-                $stmt->bindParam(':search', $search);
-                $stmt->execute();
-                $orders = $stmt->fetchAll();
-                showOrderTable($orders, $pdo);
+                if($searchtype == 'orderno' && !is_numeric($search)){
+                    echo '<p> Please Enter a Valid Number </p>';
+                }elseif($searchtype == 'email' && !filter_var($search, FILTER_VALIDATE_EMAIL)){
+                    echo '<p> Invalid email address </p>';
+                }else{
+                    $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search');
+                    $stmt->execute(['search' => $search]);
+                    $orders = $stmt->fetchAll();
+                    showOrderTable($orders, $pdo);
+                }
             }
         }
     }
