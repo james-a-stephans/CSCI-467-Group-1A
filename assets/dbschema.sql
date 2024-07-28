@@ -1,0 +1,202 @@
+CREATE TABLE login(
+    username VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE weightbrackets(
+    weight FLOAT(4,2) PRIMARY KEY,
+    price FLOAT(8,2) NOT NULL
+);
+
+CREATE TABLE products(
+    partnumber INT PRIMARY KEY,
+    quantity INT NOT NULL
+);
+
+CREATE TABLE customer(
+    email VARCHAR(50) PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    address VARCHAR(250) NOT NULL
+);
+
+CREATE TABLE orders(
+    email VARCHAR(50) NOT NULL,
+    partnumber INT NOT NULL,
+    quantity INT NOT NULL,
+    orderno INT NOT NULL,
+    PRIMARY KEY(email, partnumber, orderno)
+);
+
+--FOR TESTING PURPOSES: Login using "pass"
+INSERT INTO
+login (username, password, role)
+VALUES (
+    'Admin', '$2y$10$N01UeW.tinwK9k4hCxqIFewFGC81iYpkoQpulci70W0O4OVhFeDkq', 'administrator'
+);
+
+--FOR TESTING PURPOSES: Login using "word"
+INSERT INTO
+login (username, password, role)
+VALUES (
+    'Employee', '$2y$10$Q4HfVAMLFEFMaE6RXx96uuZfSpoAbhUhk9Ix9k0EvVCOM3EIxouDG', 'employee'
+);
+
+INSERT INTO
+weightbrackets (weight, price)
+VALUES (
+    0, 0
+);
+
+--Default every product to a quantity of 50.
+INSERT INTO products VALUES (0, 50);
+INSERT INTO products VALUES (1, 50);
+INSERT INTO products VALUES (2, 50);
+INSERT INTO products VALUES (3, 50);
+INSERT INTO products VALUES (4, 50);
+INSERT INTO products VALUES (5, 50);
+INSERT INTO products VALUES (6, 50);
+INSERT INTO products VALUES (7, 50);
+INSERT INTO products VALUES (8, 50);
+INSERT INTO products VALUES (9, 50);
+INSERT INTO products VALUES (10, 50);
+INSERT INTO products VALUES (11, 50);
+INSERT INTO products VALUES (12, 50);
+INSERT INTO products VALUES (13, 50);
+INSERT INTO products VALUES (14, 50);
+INSERT INTO products VALUES (15, 50);
+INSERT INTO products VALUES (16, 50);
+INSERT INTO products VALUES (17, 50);
+INSERT INTO products VALUES (18, 50);
+INSERT INTO products VALUES (19, 50);
+INSERT INTO products VALUES (20, 50);
+INSERT INTO products VALUES (21, 50);
+INSERT INTO products VALUES (22, 50);
+INSERT INTO products VALUES (23, 50);
+INSERT INTO products VALUES (24, 50);
+INSERT INTO products VALUES (25, 50);
+INSERT INTO products VALUES (26, 50);
+INSERT INTO products VALUES (27, 50);
+INSERT INTO products VALUES (28, 50);
+INSERT INTO products VALUES (29, 50);
+INSERT INTO products VALUES (30, 50);
+INSERT INTO products VALUES (31, 50);
+INSERT INTO products VALUES (32, 50);
+INSERT INTO products VALUES (33, 50);
+INSERT INTO products VALUES (34, 50);
+INSERT INTO products VALUES (35, 50);
+INSERT INTO products VALUES (36, 50);
+INSERT INTO products VALUES (37, 50);
+INSERT INTO products VALUES (38, 50);
+INSERT INTO products VALUES (39, 50);
+INSERT INTO products VALUES (40, 50);
+INSERT INTO products VALUES (41, 50);
+INSERT INTO products VALUES (42, 50);
+INSERT INTO products VALUES (43, 50);
+INSERT INTO products VALUES (44, 50);
+INSERT INTO products VALUES (45, 50);
+INSERT INTO products VALUES (46, 50);
+INSERT INTO products VALUES (47, 50);
+INSERT INTO products VALUES (48, 50);
+INSERT INTO products VALUES (49, 50);
+INSERT INTO products VALUES (50, 50);
+INSERT INTO products VALUES (51, 50);
+INSERT INTO products VALUES (52, 50);
+INSERT INTO products VALUES (53, 50);
+INSERT INTO products VALUES (54, 50);
+INSERT INTO products VALUES (55, 50);
+INSERT INTO products VALUES (56, 50);
+INSERT INTO products VALUES (57, 50);
+INSERT INTO products VALUES (58, 50);
+INSERT INTO products VALUES (59, 50);
+INSERT INTO products VALUES (60, 50);
+INSERT INTO products VALUES (61, 50);
+INSERT INTO products VALUES (62, 50);
+INSERT INTO products VALUES (63, 50);
+INSERT INTO products VALUES (64, 50);
+INSERT INTO products VALUES (65, 50);
+INSERT INTO products VALUES (66, 50);
+INSERT INTO products VALUES (67, 50);
+INSERT INTO products VALUES (68, 50);
+INSERT INTO products VALUES (69, 50);
+INSERT INTO products VALUES (70, 50);
+INSERT INTO products VALUES (71, 50);
+INSERT INTO products VALUES (72, 50);
+INSERT INTO products VALUES (73, 50);
+INSERT INTO products VALUES (74, 50);
+INSERT INTO products VALUES (75, 50);
+INSERT INTO products VALUES (76, 50);
+INSERT INTO products VALUES (77, 50);
+INSERT INTO products VALUES (78, 50);
+INSERT INTO products VALUES (79, 50);
+INSERT INTO products VALUES (80, 50);
+INSERT INTO products VALUES (81, 50);
+INSERT INTO products VALUES (82, 50);
+INSERT INTO products VALUES (83, 50);
+INSERT INTO products VALUES (84, 50);
+INSERT INTO products VALUES (85, 50);
+INSERT INTO products VALUES (86, 50);
+INSERT INTO products VALUES (87, 50);
+INSERT INTO products VALUES (88, 50);
+INSERT INTO products VALUES (89, 50);
+INSERT INTO products VALUES (90, 50);
+INSERT INTO products VALUES (91, 50);
+INSERT INTO products VALUES (92, 50);
+INSERT INTO products VALUES (93, 50);
+INSERT INTO products VALUES (94, 50);
+INSERT INTO products VALUES (95, 50);
+INSERT INTO products VALUES (96, 50);
+INSERT INTO products VALUES (97, 50);
+INSERT INTO products VALUES (98, 50);
+INSERT INTO products VALUES (99, 50);
+INSERT INTO products VALUES (100, 50);
+INSERT INTO products VALUES (101, 50);
+INSERT INTO products VALUES (102, 50);
+INSERT INTO products VALUES (103, 50);
+INSERT INTO products VALUES (104, 50);
+INSERT INTO products VALUES (105, 50);
+INSERT INTO products VALUES (106, 50);
+INSERT INTO products VALUES (107, 50);
+INSERT INTO products VALUES (108, 50);
+INSERT INTO products VALUES (109, 50);
+INSERT INTO products VALUES (110, 50);
+INSERT INTO products VALUES (111, 50);
+INSERT INTO products VALUES (112, 50);
+INSERT INTO products VALUES (113, 50);
+INSERT INTO products VALUES (114, 50);
+INSERT INTO products VALUES (115, 50);
+INSERT INTO products VALUES (116, 50);
+INSERT INTO products VALUES (117, 50);
+INSERT INTO products VALUES (118, 50);
+INSERT INTO products VALUES (119, 50);
+INSERT INTO products VALUES (120, 50);
+INSERT INTO products VALUES (121, 50);
+INSERT INTO products VALUES (122, 50);
+INSERT INTO products VALUES (123, 50);
+INSERT INTO products VALUES (124, 50);
+INSERT INTO products VALUES (125, 50);
+INSERT INTO products VALUES (126, 50);
+INSERT INTO products VALUES (127, 50);
+INSERT INTO products VALUES (128, 50);
+INSERT INTO products VALUES (129, 50);
+INSERT INTO products VALUES (130, 50);
+INSERT INTO products VALUES (131, 50);
+INSERT INTO products VALUES (132, 50);
+INSERT INTO products VALUES (133, 50);
+INSERT INTO products VALUES (134, 50);
+INSERT INTO products VALUES (135, 50);
+INSERT INTO products VALUES (136, 50);
+INSERT INTO products VALUES (137, 50);
+INSERT INTO products VALUES (138, 50);
+INSERT INTO products VALUES (139, 50);
+INSERT INTO products VALUES (140, 50);
+INSERT INTO products VALUES (141, 50);
+INSERT INTO products VALUES (142, 50);
+INSERT INTO products VALUES (143, 50);
+INSERT INTO products VALUES (144, 50);
+INSERT INTO products VALUES (145, 50);
+INSERT INTO products VALUES (146, 50);
+INSERT INTO products VALUES (147, 50);
+INSERT INTO products VALUES (148, 50);
+INSERT INTO products VALUES (149, 50);
