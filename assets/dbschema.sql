@@ -26,6 +26,7 @@ CREATE TABLE orders(
     partnumber INT NOT NULL,
     quantity INT NOT NULL,
     orderno INT NOT NULL,
+    status VARCHAR(1) NOT NULL,
     PRIMARY KEY(email, partnumber, orderno)
 );
 

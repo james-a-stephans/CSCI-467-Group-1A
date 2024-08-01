@@ -167,7 +167,7 @@
 
         else {
             //Prepare the statements to update the database.
-            $addOrder = $local_pdo->prepare("INSERT INTO orders(email, partnumber, quantity, orderno) VALUES (?, ?, ?, ?)");
+            $addOrder = $local_pdo->prepare("INSERT INTO orders(email, partnumber, quantity, orderno, status) VALUES (?, ?, ?, ?, 'N')");
             $updateQty = $local_pdo->prepare("UPDATE products SET quantity=? WHERE partnumber=?;");
 
             //Iterate through every item in the cart.

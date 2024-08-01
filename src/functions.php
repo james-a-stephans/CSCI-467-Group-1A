@@ -15,8 +15,8 @@
 
     //Connect to the databases necessary for the website.
     try {// if something goes wrong, an exception is thrown
-        $dsn = "mysql:host=courses;dbname=z1978448";
-        $local_pdo = new PDO($dsn, "z1978448", "1996Nov05");
+        $dsn = "mysql:host=courses;dbname=z1924887";
+        $local_pdo = new PDO($dsn, "z1924887", "2003Jun17");
         $local_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
     }
     catch(PDOexception $e)  { // handle that exception
@@ -174,6 +174,62 @@
             echo '</table></p>';
         }
     }
+
+    /**
+     * Display the orders table for the Warehouse Worker to view.
+     */
+    function showOrderTableFulfill($orders, $pdo) {
+        if(count($orders) == 0){
+            echo '<p> No orders found. </p>';
+        }
+        else{
+            echo '<form method="POST" action="">';
+            echo '<p><table class="all-orders">
+                <tr>
+                    <th class="orderhead">Order Number</th>
+                    <th class="orderhead">Customer Email</th>
+                    <th class="orderhead">Part Number</th>
+                    <th class="orderhead">Description</th>
+                    <th class="orderhead">Price</th>
+                    <th class="orderhead">Quantity</th>
+                    <th class="orderhead">Total Price</th>
+                    <th class="orderhead">Status</th> 
+                </tr>';
+            foreach($orders as $order){
+                //Get the part information for the order.
+                $partnumber = $order['partnumber'];
+                $stmt = $pdo->prepare("SELECT description, price FROM parts WHERE number = :partnumber");
+                $stmt->execute(['partnumber' => $partnumber]);
+                $part = $stmt->fetch();
+                $description = $part['description'];
+                $price = $part['price'];
+                $totalprice = $price * $order['quantity'];
+                echo '<tr>
+                    <td class ="order">' . $order['orderno'] . '</td>
+                    <td class ="order">' . $order['email'] . '</td>
+                    <td class ="order">' . $order['partnumber'] . '</td>
+                    <td class ="order">' . $description . '</td>
+                    <td class ="order">'.'$'. $price . '</td>
+                    <td class ="order">' . $order['quantity'] . '</td>
+                    <td class ="order">'.'$'. $totalprice . '</td>
+                    <td class="order">';
+                if ($order['status'] == 'N') {
+                    echo '<select name="shipment_status[' . $order['orderno'] . ']">
+                            <option value="not shipped" selected>Not shipped</option>
+                            <option value="shipped">Shipped</option>
+                          </select>';
+                }
+                else {
+                    echo 'Shipped';
+                }
+            echo '</td></tr>';
+            }
+        echo '</table></p>';
+        echo '<button type="submit">Confirm</button>';
+        echo '</form>';
+        }
+    }
+
       
     /** 
      * Display an error message if something goes wrong while placing an order.
