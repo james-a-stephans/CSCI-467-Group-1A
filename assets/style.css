@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 header {
     background-image: linear-gradient(to bottom right, navy, steelblue);;
   }
@@ -169,4 +170,177 @@ h3 {
     font-size: xx-large;
     color: white;
     white-space: pre;
+=======
+header {
+    background-image: linear-gradient(to bottom right, navy, steelblue);;
+  }
+
+body {
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    padding-top: 15px;
+    color: white;
+}
+
+h3 {
+    text-align: center;
+}
+
+.header-links {
+    text-decoration: none;
+    background-color: slategray;
+    font-size: xx-large;
+    color: white;
+    border-radius: 10px;
+}
+
+.header-band {
+    text-align: right;
+}
+
+.loginbox {
+    color: white;
+    margin: auto;
+    width: 30%;
+    border-style: solid;
+    border-width: 10px;
+    border-color: steelblue;
+    text-align: center;
+}
+
+.login-elt {
+    display: block;
+}
+
+.login-error {
+    color: white;
+    text-align: center;
+}
+
+.weightbox {
+    color: white;
+    margin: auto;
+    width: 50%;
+    border-style: solid;
+    border-width: 10px;
+    border-color: steelblue;
+    text-align: center;
+}
+
+.access-denial {
+    text-align: center;
+    color: white;
+}
+
+.button-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.separate-button {
+    display: flex;
+    flex-direction: column;
+}
+
+.weight-elt {
+    display: block;
+}
+
+.all-orders {
+    margin: auto;
+    width: 95%;
+    border-style: none;
+    text-align: center;
+}
+
+.orderhead {
+    border-style: inset;
+    border-width: 5px;
+    border-color: steelblue;
+    text-align: center;
+}
+
+.order {
+    border-style: none solid solid solid;
+    border-color: white;
+}
+
+.part-info {
+    margin: auto;
+    width: 95%;
+    color: white;
+    text-align: center;
+}
+
+.part {
+    border-style: double;
+    border-width: 5px;
+    border-color: steelblue;
+    color: white;
+    text-align: center;
+}
+
+.cart {
+    margin: auto;
+    width: 95%;
+    color: white;
+}
+
+.cart-part {
+    border-style: double;
+    border-width: 5px;
+    border-color: steelblue;
+    color: white;
+}
+
+.product-info {
+    text-align: left;
+    white-space: pre;
+}
+
+.order-box {
+    white-space: pre;
+}
+
+.cart-box {
+    color: white;
+    margin: auto;
+    width: 50%;
+    border-style: solid;
+    border-width: 10px;
+    border-color: steelblue;
+    white-space: pre;
+    text-align: left;
+}
+
+.pay-box {
+    color: white;
+    margin: auto;
+    width: 50%;
+    border-style: solid;
+    border-width: 10px;
+    border-color: steelblue;
+    white-space: pre;
+    text-align: left;
+}
+
+.pay-form {
+    display: inline-block;
+}
+
+.order-footer {
+    text-align: center;
+}
+
+.error-message {
+    text-align: center;
+    font-size: xx-large;
+    color: white;
+    white-space: pre;
+>>>>>>> c6c6107c74981404b4f90b57dbdc7292f166bde2
 }
