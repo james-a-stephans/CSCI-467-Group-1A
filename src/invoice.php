@@ -26,7 +26,7 @@
             }
         </style>
     </head>
-    <body style="font-family: Arial, Helvetica, sans-serif; margin: 1in; height: 11in; width: 8.5in;">
+    <body style="font-family: Arial, Helvetica, sans-serif; margin: 1in; width: 8.5in;">
         <?php
             require './functions.php';
 
