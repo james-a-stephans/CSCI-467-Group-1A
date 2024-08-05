@@ -27,7 +27,7 @@
         if(isset($_GET['all'])){
             echo '<p> All Orders </p>';
             //TODO: get part name and price for orders
-            $stmt = $local_pdo->prepare('SELECT * FROM orders');
+            $stmt = $local_pdo->prepare('SELECT * FROM orders ORDER BY orderno DESC');
             $stmt->execute();
             $orders = $stmt->fetchAll();
             showOrderTable($orders, $pdo);
