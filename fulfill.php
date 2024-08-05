@@ -46,7 +46,7 @@
         //Display the interface to view all orders or search for orders
         if(isset($_GET['all'])){
             echo '<p> All Orders </p>';
-            $stmt = $local_pdo->prepare('SELECT * FROM orders ORDER BY orderno');
+            $stmt = $local_pdo->prepare('SELECT * FROM orders ORDER BY orderno DESC');
             $stmt->execute();
             $orders = $stmt->fetchAll();
             showOrderTableFulfill($orders, $pdo);
@@ -68,7 +68,7 @@
                 }elseif($searchtype == 'email' && !filter_var($search, FILTER_VALIDATE_EMAIL)){
                     echo '<p> Invalid email address </p>';
                 }else{
-                    $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search ORDER BY orderno');
+                    $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search ORDER BY orderno DESC');
                     $stmt->execute(['search' => $search]);
                     $orders = $stmt->fetchAll();
                     showOrderTableFulfill($orders, $pdo);
