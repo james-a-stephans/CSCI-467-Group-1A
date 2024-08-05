@@ -10,17 +10,17 @@
         header("Location: ./index.php");
     }
 
-    // Check if form was 
+    // Check if form was sent.
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['shipment_status'])) {
             foreach ($_POST['shipment_status'] as $orderno => $status) {
                 if ($status == 'shipped') {
                     // updating order status
-                    $dbstatus = $local_pdo->prepare("UPDATE orders SET status = 'Y' WHERE orderno = ?");
+                    $dbstatus = $local_pdo->prepare("UPDATE orderInfo SET status = 'Y' WHERE orderno = ?");
                     $dbstatus->execute([$orderno]);
 
                     // retrieving email from db
-                    $email = $local_pdo->prepare("SELECT email FROM orders WHERE orderno = ?"); 
+                    $email = $local_pdo->prepare("SELECT email FROM orderInfo WHERE orderno = ?"); 
                     $email->execute([$orderno]);
                     $order = $email->fetch();
 
@@ -46,10 +46,14 @@
         //Display the interface to view all orders or search for orders
         if(isset($_GET['all'])){
             echo '<p> All Orders </p>';
-            $stmt = $local_pdo->prepare('SELECT * FROM orders ORDER BY orderno DESC');
+            $stmt = $local_pdo->prepare('SELECT * FROM orderInfo ORDER BY orderno DESC');
             $stmt->execute();
             $orders = $stmt->fetchAll();
-            showOrderTableFulfill($orders, $pdo);
+
+            $resultStmt = $local_pdo->prepare('SELECT * FROM orders;');
+            $resultStmt->execute();
+            $rows = $resultStmt->fetchAll();
+            showOrderTableFulfill($orders, $pdo, $rows);
         }
         //Display the interface to search for orders
         if(isset($_GET['search'])){
@@ -68,10 +72,15 @@
                 }elseif($searchtype == 'email' && !filter_var($search, FILTER_VALIDATE_EMAIL)){
                     echo '<p> Invalid email address </p>';
                 }else{
-                    $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search ORDER BY orderno DESC');
+                    $stmt = $local_pdo->prepare('SELECT * FROM orderInfo WHERE ' . $searchtype . ' = :search ORDER BY orderno DESC');
                     $stmt->execute(['search' => $search]);
                     $orders = $stmt->fetchAll();
-                    showOrderTableFulfill($orders, $pdo);
+
+                    $resultStmt = $local_pdo->prepare('SELECT * FROM orders;');
+                    $resultStmt->execute();
+                    $rows = $resultStmt->fetchAll();
+
+                    showOrderTableFulfill($orders, $pdo, $rows);
                 }
             }
         }
