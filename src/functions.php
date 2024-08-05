@@ -15,8 +15,8 @@
 
     //Connect to the databases necessary for the website.
     try {// if something goes wrong, an exception is thrown
-        $dsn = "mysql:host=courses;dbname=z1924887";
-        $local_pdo = new PDO($dsn, "z1924887", "2003Jun17");
+        $dsn = "mysql:host=courses;dbname=z1978448";
+        $local_pdo = new PDO($dsn, "z1978448", "1996Nov05");
         $local_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
     }
     catch(PDOexception $e)  { // handle that exception
@@ -66,8 +66,10 @@
                     echo '<a href="./weight.php" title="Set Weight Price Brackets" class="header-links">&#x1F4E6;</a>' . "\n";
                     echo '<a href="./vieworder.php" title="View Orders" class="header-links">&#128269;</a>' . "\n";
                 }
-                if(isset($_SESSION['username']) && !isset($_SESSION['adminLogin'])) {
+                if(isset($_SESSION['receivingLogin'])) {
                     echo '<a href="./process.php" title="Process Delivery" class="header-links">&#x1F69A;</a>' . "\n";
+                }
+                if(isset($_SESSION['warehouseLogin'])) {
                     echo '<a href="./fulfill.php" title="Fulfill Order" class="header-links">&#9757;</a>' . "\n";
                 }
                 echo '<a href="./index.php" title="Home Page" class="header-links">&#x1F3E0;</a>' . "\n";
@@ -100,6 +102,14 @@
             if($loginInfo[2] == "administrator")
             {
                 $_SESSION['adminLogin'] = true;
+            }
+            else if ($loginInfo[2] == "warehouse")
+            {
+                $_SESSION['warehouseLogin'] = true;
+            }
+            else if ($loginInfo[2] == "receiving")
+            {
+                $_SESSION['receivingLogin'] = true;
             }
 
             return true;

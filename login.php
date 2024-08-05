@@ -11,14 +11,16 @@
     if(isset($_SESSION['username'])) {
         unset($_SESSION['username']);
         unset($_SESSION['adminLogin']);
+        unset($_SESSION['warehouseLogin']);
+        unset($_SESSION['receivingLogin']);
         resetUserPage();
     }
 
     //If the user has attempted to log in, validate the login attempt.
     else if(isset($_POST["loginAttempt"])) {
         //Fetch the user information associated with the given username.
-        $result = $local_pdo->prepare("SELECT username, password, role FROM login WHERE username=?;");
-        $result->execute(array($_POST['username']));
+        $result = $local_pdo->prepare("SELECT username, password, role FROM login WHERE LOWER(username)=?;");
+        $result->execute(array(strtolower($_POST['username'])));
         $row = $result->fetch(PDO::FETCH_NUM);
 
         $successfulLogin = passwordValidation($row);
