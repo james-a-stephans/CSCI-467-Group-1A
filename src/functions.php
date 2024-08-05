@@ -151,6 +151,7 @@
                     <th class="orderhead">Price</th>
                     <th class="orderhead">Quantity</th>
                     <th class="orderhead">Total Price</th>
+                    <th class="orderhead">Status</th>
                 </tr>';
             foreach($orders as $order){
                 //Get the part information for the order.
@@ -168,8 +169,13 @@
                     <td class ="order">' . $description . '</td>
                     <td class ="order">'.'$'. $price . '</td>
                     <td class ="order">' . $order['quantity'] . '</td>
-                    <td class ="order">'.'$'. $totalprice . '</td>
-                </tr>';
+                    <td class ="order">'.'$'. $totalprice . '</td>';
+                if ($order['status'] == 'Y'){
+                    echo '<td class="order">Shipped</td>';
+                }
+                else {
+                    echo '<td class="order">Pending</td>';
+                }
             }
             echo '</table></p>';
         }
