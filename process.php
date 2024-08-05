@@ -32,8 +32,14 @@
         if($searchtype == 'number' && !is_numeric($search)){
             echo '<p> Please enter a valid product number</p>';
         }else{
-            $stmt = $pdo->prepare("SELECT * FROM parts WHERE $searchtype LIKE :search");
-            $stmt->execute(['search' => '%' . $search . '%']);
+            if($searchtype == 'number') {
+                $stmt = $pdo->prepare("SELECT * FROM parts WHERE $searchtype = :search");
+                $stmt->execute(['search' => $search]);
+            }
+            else {
+                $stmt = $pdo->prepare("SELECT * FROM parts WHERE $searchtype LIKE :search");
+                $stmt->execute(['search' => '%' . $search . '%']);
+            }
             $searchMatched = false;
 
             while($product = $stmt->fetch()){
