@@ -49,7 +49,7 @@
                 }elseif($searchtype == 'email' && !filter_var($search, FILTER_VALIDATE_EMAIL)){
                     echo '<p> Invalid email address </p>';
                 }else{
-                    $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search');
+                    $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search ORDER BY orderno DESC');
                     $stmt->execute(['search' => $search]);
                     $orders = $stmt->fetchAll();
                     showOrderTable($orders, $pdo);
@@ -57,4 +57,8 @@
             }
         }
     }
+    //Close the body and html tags after running the relevant functions.
+    echo '
+    </body>
+</html>';
 ?>

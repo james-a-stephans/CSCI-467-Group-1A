@@ -22,10 +22,10 @@ CREATE TABLE customer(
 );
 
 CREATE TABLE orders(
+    orderno INT NOT NULL,
     email VARCHAR(50) NOT NULL,
     partnumber INT NOT NULL,
     quantity INT NOT NULL,
-    orderno INT NOT NULL,
     status VARCHAR(1) NOT NULL,
     PRIMARY KEY(email, partnumber, orderno)
 );
@@ -41,7 +41,14 @@ VALUES (
 INSERT INTO
 login (username, password, role)
 VALUES (
-    'Employee', '$2y$10$Q4HfVAMLFEFMaE6RXx96uuZfSpoAbhUhk9Ix9k0EvVCOM3EIxouDG', 'employee'
+    'WarehouseEmployee', '$2y$10$Q4HfVAMLFEFMaE6RXx96uuZfSpoAbhUhk9Ix9k0EvVCOM3EIxouDG', 'warehouse'
+);
+
+--FOR TESTING PURPOSES: Login using "word"
+INSERT INTO
+login (username, password, role)
+VALUES (
+    'DeskEmployee', '$2y$10$Q4HfVAMLFEFMaE6RXx96uuZfSpoAbhUhk9Ix9k0EvVCOM3EIxouDG', 'receiving'
 );
 
 INSERT INTO

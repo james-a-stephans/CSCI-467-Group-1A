@@ -8,8 +8,8 @@
     $_SESSION['ReturnPage'] = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'] .
     '?' . $_SERVER['QUERY_STRING'];
 
-    //If the user is not an administrator, redirect them to the home page with an error message.
-    if(!isset($_SESSION['username'])) {
+    //If the user is not a desk employee, redirect them to the home page with an error message.
+    if(!isset($_SESSION['receivingLogin'])) {
         $_SESSION['accessDenied'] = true;
         header("Location: ./index.php");
     }
@@ -32,10 +32,11 @@
         if($searchtype == 'number' && !is_numeric($search)){
             echo '<p> Please enter a valid product number</p>';
         }else{
-            $stmt = $pdo->prepare("SELECT * FROM parts WHERE $searchtype = :search");
-            $stmt->execute(['search' => $search]);
-            $product = $stmt->fetch();
-            if($product){
+            $stmt = $pdo->prepare("SELECT * FROM parts WHERE $searchtype LIKE :search");
+            $stmt->execute(['search' => '%' . $search . '%']);
+            $searchMatched = false;
+
+            while($product = $stmt->fetch()){
                 $stmt2 = $local_pdo->prepare("SELECT * FROM products WHERE partnumber = :partnumber");
                 $stmt2->execute(['partnumber' => $product['number']]);
                 $inventory = $stmt2->fetch();
@@ -48,7 +49,10 @@
                     <br/>Add products to inventory: <input type="text" name="quantity"><br/>
                     <input type="submit" name="submitquantity">
                 </form></div>';
-            }else{
+                $searchMatched = true;
+            }
+
+            if(!$searchMatched) {
                 echo '<p>Product not found</p>';
             }
         }
@@ -69,4 +73,8 @@
                 echo '<p>Please enter a valid quantity</p>';
         }
     }
+    //Close the body and html tags after running the relevant functions.
+    echo '
+    </body>
+</html>';
 ?>

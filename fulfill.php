@@ -4,6 +4,12 @@
     require './src/functions.php';
     printHeader();
 
+    //If the user is not a warehouse employee, redirect them to the home page with an error message.
+    if(!isset($_SESSION['warehouseLogin'])) {
+        $_SESSION['accessDenied'] = true;
+        header("Location: ./index.php");
+    }
+
     // Check if form was 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['shipment_status'])) {
@@ -40,8 +46,7 @@
         //Display the interface to view all orders or search for orders
         if(isset($_GET['all'])){
             echo '<p> All Orders </p>';
-            //TODO: get part name and price for orders
-            $stmt = $local_pdo->prepare('SELECT * FROM orders');
+            $stmt = $local_pdo->prepare('SELECT * FROM orders ORDER BY orderno DESC');
             $stmt->execute();
             $orders = $stmt->fetchAll();
             showOrderTableFulfill($orders, $pdo);
@@ -63,7 +68,7 @@
                 }elseif($searchtype == 'email' && !filter_var($search, FILTER_VALIDATE_EMAIL)){
                     echo '<p> Invalid email address </p>';
                 }else{
-                    $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search');
+                    $stmt = $local_pdo->prepare('SELECT * FROM orders WHERE ' . $searchtype . ' = :search ORDER BY orderno DESC');
                     $stmt->execute(['search' => $search]);
                     $orders = $stmt->fetchAll();
                     showOrderTableFulfill($orders, $pdo);
@@ -71,4 +76,8 @@
             }
         }
 
+        //Close the body and html tags after running the relevant functions.
+        echo '
+        </body>
+    </html>';
     ?>
