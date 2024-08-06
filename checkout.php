@@ -76,7 +76,8 @@
             echo "\nProduct: " . ucfirst($row[1])
             . "\nQuantity in cart: " . $displayQty
             . "\nItem weight: " . $itemWt . ' lbs.'
-            . "\nItem Price: $" . $formatItemPrice
+            . "\nItem Price: $" . number_format($row[2], 2)
+            . "\nItem Subtotal: $" . $formatItemPrice
             . "\n" . '<form method="POST" action="./checkout.php">'
             .'<input type="number" id="newQty" name="newQty" value="' . $_SESSION['cart'][$items[$i]] . '" min="0" max="'
             . $local_row[0]
@@ -96,10 +97,11 @@
         echo '</table>';
 
         //Computes the shipping cost for the order, then adds it to the total price.
-        $queryStatement = "SELECT MAX(price) FROM weightbrackets WHERE price <= '" . $_SESSION['totalWt'] . "';";
+        $queryStatement = "SELECT MAX(price) FROM weightbrackets WHERE weight <= '" . $_SESSION['totalWt'] . "';";
         $shippingRow = $local_pdo->query($queryStatement);
         $shippingPrice = $shippingRow->fetch(PDO::FETCH_NUM);
         $_SESSION['totalPrice'] += $shippingPrice[0];
+        $_SESSION['shippingPrice'] = round($shippingPrice[0], 2);
 
         //Format the total price and weight to display in their correct formats.
         $_SESSION['totalPrice'] = round($_SESSION['totalPrice'], 2);
@@ -108,7 +110,8 @@
 
         //Display the final weight and price.
         echo '<div class="order-footer">'
-        . '<form method="POST" action="./checkout.php">' . "\nTotal Weight: " . $formatTotalWt . ' lbs.';
+        . '<form method="POST" action="./checkout.php">' . "\nShipping and Handling: $" . number_format($_SESSION['shippingPrice'], 2)
+        . "\nTotal Weight: " . $formatTotalWt . ' lbs.';
         echo "\nTotal Price: $" . $formatTotalPrice;
         echo "\n" . '<input type="submit" value="Place Order" name="orderPlaced" />';
         echo '</form></div></div>';
@@ -130,6 +133,14 @@
         echo '<div class="pay-box"><form method="POST" action="./checkout.php" class="pay-form">
         <label for="custName">Name as it appears on your card: </label>'
         . '<input type="text" id="custName" name="custName" autocomplete="cc-name" required />' . "\n\n"
+        . '<label for="custStreet">        Address: </label>'
+        . '<input type="text" id="custStreet" name="custStreet" autocomplete="street-address" required />' . "\n\n"
+        . '<label for="custCity">        City: </label>'
+        . '<input type="text" id="custCity" name="custCity" autocomplete="address-level2" required />' . "\n\n"
+        . '<label for="custState">        State: </label>'
+        . getStates("custState") . "\n\n"
+        . '<label for="zipcode">        ZIP Code: </label>'
+        . '<input type="text" id="zipcode" name="zipcode" autocomplete="postal-code" maxlength="10" pattern="[0-9]{5,5}(-[0-9]{4,4}){0,1}" placeholder="#####-####" required />' . "\n\n"
         . '<label for="custCard">        Credit Card Number (13-19 digits): </label>'
         . '<input type="tel" id="custCard" name="custCard" pattern="[0-9\s]{13,19}" autocomplete="cc-number" placeholder="xxxx xxxx xxxx xxxx" maxlength="19" required/>' . "\n\n"
         . '<label for="expDate">        Expiration Date (MM/YYYY): </label>'
@@ -166,26 +177,38 @@
         }
 
         else {
-            //Prepare the statements to update the database.
-            $addOrder = $local_pdo->prepare("INSERT INTO orders(email, partnumber, quantity, orderno, status) VALUES (?, ?, ?, ?, 'N')");
-            $updateQty = $local_pdo->prepare("UPDATE products SET quantity=? WHERE partnumber=?;");
+            //Insert the order and shipping cost into the database.
+            $addOrderInfo = $local_pdo->prepare("INSERT INTO orderInfo(email, orderno, shipping_cost, total_cost, status, customer_name, address_street, address_state, address_city, postcode) VALUES (?, ?, ?, ?, 'N', ?, ?, ?, ?, ?)");
+            $orderInfoRes = $addOrderInfo->execute(array($_POST['emailAddr'], $currentOrder, $_SESSION['shippingPrice'], $_SESSION['totalPrice'], $_POST['custName'], $_POST['custStreet'], $_POST['custState'], $_POST['custCity'], $_POST['zipcode']));
 
-            //Iterate through every item in the cart.
-            $orderItems = array_keys($_SESSION['cart']);
+            //If the update to the database fails, print an error message and stop processing the transaction.
+            if($orderInfoRes == false) {
+                $transaction = false;
+                transactionFailure();
+            }
+            
+            else {
+                //Prepare the statements to update the database.
+                $addOrder = $local_pdo->prepare("INSERT INTO orders(partnumber, quantity, orderno) VALUES (?, ?, ?)");
+                $updateQty = $local_pdo->prepare("UPDATE products SET quantity=? WHERE partnumber=?;");
 
-            for($i = 0; $i < count($orderItems); $i++) {
-                //Find the current quantity of the item being processed.
-                $local_result = $local_pdo->query("SELECT quantity FROM `products` WHERE `partnumber` = " . $orderItems[$i] . ";");
-                $local_row = $local_result->fetch(PDO::FETCH_NUM);
+                //Iterate through every item in the cart.
+                $orderItems = array_keys($_SESSION['cart']);
 
-                //Update the local database as appropriate.
-                $addRes = $addOrder->execute(array($_POST['emailAddr'], $orderItems[$i], $_SESSION['cart'][$orderItems[$i]], $currentOrder));
-                $updateRes = $updateQty->execute(array($local_row[0] - $_SESSION['cart'][$orderItems[$i]], $orderItems[$i]));
+                for($i = 0; $i < count($orderItems); $i++) {
+                    //Find the current quantity of the item being processed.
+                    $local_result = $local_pdo->query("SELECT quantity FROM `products` WHERE `partnumber` = " . $orderItems[$i] . ";");
+                    $local_row = $local_result->fetch(PDO::FETCH_NUM);
 
-                //If an update to the database fails, stop the loop immediately and print an error message.
-                if($addRes == false || $updateRes == false) {
-                    $transaction = false;
-                    transactionFailure();
+                    //Update the local database as appropriate.
+                    $addRes = $addOrder->execute(array($orderItems[$i], $_SESSION['cart'][$orderItems[$i]], $currentOrder));
+                    $updateRes = $updateQty->execute(array($local_row[0] - $_SESSION['cart'][$orderItems[$i]], $orderItems[$i]));
+
+                    //If an update to the database fails, stop the loop immediately and print an error message.
+                    if($addRes == false || $updateRes == false) {
+                        $transaction = false;
+                        transactionFailure();
+                    }
                 }
             }
 
@@ -229,12 +252,27 @@
                     echo "\nWe apologize for any inconvenience.</p>";
                 }
 
-                //If there were no errors, commit the transaction, empty the users cart, and reload the page.
+                //If there were no errors, commit the transaction, empty the users cart, and return them to the homepage.
                 else {
                     $local_pdo->commit();
                     unset($_SESSION['cart']);
                     unset($_SESSION['totalWt']);
                     unset($_SESSION['totalPrice']);
+                    unset($_SESSION['ReturnPage']);
+
+                    // retrieving email from db
+                    $email = $local_pdo->prepare("SELECT email FROM orderInfo WHERE orderno = ?"); 
+                    $email->execute([$orderno]);
+                    $order = $email->fetch();
+
+                    // sending email to notify status
+                    $to = $order['email'];
+                    $subject = "Your Order #" . $orderno . "has been shipped.";
+                    $message = "Thank you for your order! You will be notified when the order is shipped.";
+                    $headers = "From: no-reply@carparts.com";
+
+                    mail($to, $subject, $message, $headers);
+
                     resetUserPage();
                 }
             }

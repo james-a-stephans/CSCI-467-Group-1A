@@ -14,20 +14,25 @@ CREATE TABLE products(
     quantity INT NOT NULL
 );
 
-CREATE TABLE customer(
-    email VARCHAR(50) PRIMARY KEY,
-    firstname VARCHAR(50) NOT NULL,
-    lastname VARCHAR(50) NOT NULL,
-    address VARCHAR(250) NOT NULL
+CREATE TABLE orderInfo(
+    orderno INT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    shipping_cost FLOAT(8,2) NOT NULL,
+    status VARCHAR(1) NOT NULL,
+    customer_name VARCHAR(100) NOT NULL,
+    address_street VARCHAR(250) NOT NULL,
+    address_state CHAR(2),
+    address_city VARCHAR(50),
+    postcode CHAR(10),
+    total_cost FLOAT(8,2) NOT NULL
 );
 
 CREATE TABLE orders(
     orderno INT NOT NULL,
-    email VARCHAR(50) NOT NULL,
     partnumber INT NOT NULL,
     quantity INT NOT NULL,
-    status VARCHAR(1) NOT NULL,
-    PRIMARY KEY(email, partnumber, orderno)
+    PRIMARY KEY(partnumber, orderno),
+    FOREIGN KEY(orderno) REFERENCES orderInfo(orderno)
 );
 
 --FOR TESTING PURPOSES: Login using "pass"
@@ -55,6 +60,12 @@ INSERT INTO
 weightbrackets (weight, price)
 VALUES (
     0, 0
+);
+
+INSERT INTO
+weightbrackets (weight, price)
+VALUES (
+    1, 5
 );
 
 --Default every product to a quantity of 50.

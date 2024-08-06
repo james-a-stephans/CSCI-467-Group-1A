@@ -16,12 +16,13 @@
     // Check if the user submitted a search query
     $searchQuery = "";
     if (isset($_GET['search'])) {
-    $searchQuery = $_GET['search'];
-    $stmt = $pdo->prepare("SELECT * FROM `parts` WHERE `description` LIKE :searchQuery");
-    $stmt->execute(['searchQuery' => '%' . $searchQuery . '%']);
-    } else {
-    // Fetch the parts from the database if no search query is provided
-    $stmt = $pdo->query("SELECT * FROM `parts`;");
+        $searchQuery = $_GET['search'];
+        $stmt = $pdo->prepare("SELECT * FROM `parts` WHERE `description` LIKE :searchQuery");
+        $stmt->execute(['searchQuery' => '%' . $searchQuery . '%']);
+    }
+    else {
+        // Fetch the parts from the database if no search query is provided
+        $stmt = $pdo->query("SELECT * FROM `parts`;");
     }
  
     //Display the parts from the database in a table.
