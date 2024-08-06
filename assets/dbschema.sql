@@ -21,9 +21,9 @@ CREATE TABLE orderInfo(
     status VARCHAR(1) NOT NULL,
     customer_name VARCHAR(100) NOT NULL,
     address_street VARCHAR(250) NOT NULL,
-    address_state CHAR(2),
-    address_city VARCHAR(50),
-    postcode CHAR(10),
+    address_state CHAR(2) NOT NULL,
+    address_city VARCHAR(50) NOT NULL,
+    postcode CHAR(10) NOT NULL,
     total_cost FLOAT(8,2) NOT NULL
 );
 
